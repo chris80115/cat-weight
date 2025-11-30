@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeowMetric Pro ☁️</title>
+    <title>MeowMetric Ultimate 🛡️</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -15,16 +15,19 @@
             --text-light: #A0A0A0;
             --radius: 24px;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --danger: #FF6B6B;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; padding: 20px; }
         .container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 24px; padding-bottom: 80px; }
         
+        /* Header */
         header { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px; }
         header h1 { font-size: 1.8rem; color: #5D737E; font-weight: 800; }
         .status-badge { font-size: 0.8rem; background: #E0E7EA; padding: 5px 12px; border-radius: 20px; color: #5D737E; }
 
+        /* Cat List */
         .cat-list { display: flex; justify-content: center; gap: 20px; padding: 10px 0; }
         .cat-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: all 0.2s; position: relative; }
         .cat-item:hover { transform: translateY(-5px); }
@@ -33,13 +36,19 @@
         .cat-name { font-weight: 700; font-size: 0.9rem; color: var(--text-main); }
         .edit-icon { position: absolute; top: 0; right: 0; background: #FFF; border-radius: 50%; width: 24px; height: 24px; font-size: 12px; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: var(--text-light); }
 
+        /* Chart Section */
         .chart-card { background: var(--card-bg); padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); }
-        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;}
+        .chart-title-group { display: flex; align-items: center; gap: 10px; }
         .chart-title { font-size: 1.1rem; font-weight: bold; }
+        .icon-btn { background: #EEE; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s; }
+        .icon-btn:hover { background: #ddd; }
+
         .chart-filters { display: flex; background: #F5F5F5; border-radius: 12px; padding: 4px; }
         .filter-btn { border: none; background: transparent; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; color: var(--text-light); cursor: pointer; font-weight: bold; transition: 0.2s; }
         .filter-btn.active { background: #FFFFFF; color: var(--text-main); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
+        /* Insights */
         .section-label { font-size: 1.1rem; font-weight: bold; margin-bottom: -10px; margin-top: 10px; padding-left: 5px; }
         .insights { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .widget-card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; }
@@ -51,11 +60,13 @@
         .badge-alert { background: #FFE0E0; color: #D9534F; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; }
         .badge-ok { background: #E0F7FA; color: #0097A7; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; }
 
+        /* FAB */
         .fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #8FB5B1, #769F9B); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 10px 25px rgba(118, 159, 155, 0.4); cursor: pointer; transition: transform 0.2s; border: none; z-index: 50; }
         .fab:hover { transform: scale(1.1) rotate(90deg); }
 
+        /* Modals */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 100; }
-        .modal { background: var(--card-bg); padding: 30px; border-radius: var(--radius); width: 90%; max-width: 400px; animation: popIn 0.3s ease; }
+        .modal { background: var(--card-bg); padding: 30px; border-radius: var(--radius); width: 90%; max-width: 400px; animation: popIn 0.3s ease; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .form-group { margin-bottom: 15px; }
@@ -66,41 +77,61 @@
         .btn-group { display: flex; gap: 10px; margin-top: 25px; }
         .btn { flex: 1; padding: 14px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; }
         .btn-primary { background: #8FB5B1; color: white; box-shadow: 0 4px 12px rgba(143, 181, 177, 0.3); }
-        .btn-primary:active { transform: scale(0.98); }
-        .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
         .btn-secondary { background: #F0F0F0; color: var(--text-light); }
-
+        .btn-danger { background: #FFF0F0; color: var(--danger); border: 1px solid #FFCDCD; margin-top: 15px; width: 100%;}
+        
         .edit-avatar-preview { width: 100px; height: 100px; border-radius: 50%; background: #eee; margin: 0 auto 20px; overflow: hidden; position: relative; cursor: pointer; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .edit-avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
         .edit-avatar-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.5); color: white; font-size: 0.7rem; text-align: center; padding: 4px 0; }
 
-        #loadingOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 200; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; color: #8FB5B1; font-weight: bold; flex-direction: column; gap: 10px; }
-        
-        /* 圖片處理中提示 */
-        #imgProcessing {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: white; font-weight: bold; font-size: 0.8rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-            display: none; z-index: 10;
+        /* Login Screen */
+        #loginScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color); z-index: 999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
+        #loginScreen input { padding: 15px; border-radius: 15px; border: 2px solid #ddd; font-size: 1.2rem; text-align: center; margin-bottom: 20px; width: 200px; }
+        #loginScreen h2 { margin-bottom: 20px; color: #5D737E; }
+
+        /* History List Table */
+        .history-list { margin-top: 10px; max-height: 300px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; }
+        .history-info { display: flex; flex-direction: column; }
+        .history-date { font-weight: bold; font-size: 0.9rem; }
+        .history-val { color: var(--text-light); font-size: 0.85rem; }
+        .btn-delete-sm { background: none; border: none; color: var(--danger); cursor: pointer; padding: 5px; font-size: 1.2rem; }
+
+        /* Loading */
+        #loadingOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 200; display: none; justify-content: center; align-items: center; font-size: 1.2rem; color: #8FB5B1; font-weight: bold; flex-direction: column; gap: 10px; }
+        #imgProcessing { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; font-size: 0.8rem; display: none; z-index: 10; }
     </style>
 </head>
 <body>
+
+<div id="loginScreen">
+    <h2>MeowMetric 🔒</h2>
+    <input type="password" id="passwordInput" placeholder="輸入密碼">
+    <button class="btn btn-primary" style="flex: 0; width: 200px;" onclick="checkLogin()">登入</button>
+</div>
 
 <div id="loadingOverlay">
     <div>連線中... 🐾</div>
 </div>
 
-<div class="container">
+<div class="container" id="appContainer" style="filter: blur(5px);">
     <header>
         <h1>MeowMetric</h1>
-        <div class="status-badge">Pro</div>
+        <div class="status-badge">Ultimate</div>
     </header>
 
     <section class="cat-list" id="catListContainer"></section>
 
     <section class="chart-card">
         <div class="chart-header">
-            <div class="chart-title">體重趨勢</div>
+            <div class="chart-title-group">
+                <div class="chart-title">體重趨勢</div>
+                <button class="icon-btn" onclick="openHistoryModal()" title="歷史紀錄">📋</button>
+            </div>
             <div class="chart-filters">
                 <button class="filter-btn active" onclick="updateChartTimeframe('day')">日</button>
                 <button class="filter-btn" onclick="updateChartTimeframe('week')">週</button>
@@ -130,10 +161,10 @@
         </div>
         <div class="form-group">
             <label>體重 (kg)</label>
-            <input type="number" id="inputWeight" step="0.01" placeholder="例如: 5.20">
+            <input type="number" id="inputWeight" step="0.01" placeholder="5.20">
         </div>
         <div class="btn-group">
-            <button class="btn btn-secondary" onclick="closeRecordModal()">取消</button>
+            <button class="btn btn-secondary" onclick="closeModal('recordModal')">取消</button>
             <button class="btn btn-primary" id="saveRecordBtn">儲存紀錄</button>
         </div>
     </div>
@@ -154,15 +185,27 @@
             <label>貓咪名字</label>
             <input type="text" id="editCatName">
         </div>
-        
         <div class="form-group">
-            <label>下次測量日期 (目標)</label>
+            <label>下次測量日期</label>
             <input type="date" id="editNextDate">
         </div>
 
         <div class="btn-group">
-            <button class="btn btn-secondary" onclick="closeEditModal()">取消</button>
+            <button class="btn btn-secondary" onclick="closeModal('editCatModal')">取消</button>
             <button class="btn btn-primary" id="saveCatBtn">更新資料</button>
+        </div>
+
+        <button class="btn btn-danger" onclick="deleteCatProfile()">🗑️ 刪除這隻貓與所有紀錄</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="historyModal">
+    <div class="modal">
+        <h2>歷史紀錄管理</h2>
+        <div class="history-list" id="historyListContainer">
+            </div>
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="closeModal('historyModal')">關閉</button>
         </div>
     </div>
 </div>
@@ -170,14 +213,15 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { 
-        getFirestore, collection, getDocs, addDoc, query, orderBy, updateDoc, doc 
+        getFirestore, collection, getDocs, addDoc, query, orderBy, updateDoc, doc, deleteDoc, where, writeBatch 
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     // ==========================================
-    // 🔹 TODO: 請在此處貼上您的 FIREBASE 配置 🔹
+    // 🔹 TODO: 設定區域 🔹
     // ==========================================
+    const APP_PASSWORD = "2169"; // 1. 設定你的登入密碼
     const firebaseConfig = {
-          apiKey: "AIzaSyBXMjjqMz6JVkyACvndahKeKTGHRmeVZ8Q",
+           apiKey: "AIzaSyBXMjjqMz6JVkyACvndahKeKTGHRmeVZ8Q",
                 authDomain: "mystockapp-b9c09.firebaseapp.com",
                 projectId: "mystockapp-b9c09",
                 storageBucket: "mystockapp-b9c09.firebasestorage.app",
@@ -186,6 +230,7 @@
                 measurementId: "G-4YHP7NFQ73"
     };
 
+    // 變數
     let db;
     let globalCats = [];
     let globalRecords = [];
@@ -193,14 +238,27 @@
     let currentTimeframe = 'day'; 
     let tempBase64Image = null;
 
+    // --- 1. 登入邏輯 ---
+    window.checkLogin = function() {
+        const input = document.getElementById('passwordInput').value;
+        if (input === APP_PASSWORD) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appContainer').style.filter = 'none';
+            init(); // 密碼正確才開始連線
+        } else {
+            alert("密碼錯誤 🚫");
+            document.getElementById('passwordInput').value = "";
+        }
+    }
+
     async function init() {
         if (!firebaseConfig.apiKey) {
             alert("請設定 Firebase API Key");
             return;
         }
+        document.getElementById('loadingOverlay').style.display = 'flex';
         const app = initializeApp(firebaseConfig);
         db = getFirestore(app);
-        
         await fetchData();
     }
 
@@ -211,16 +269,17 @@
             globalCats = [];
             catsSnapshot.forEach(d => globalCats.push({ id: d.id, ...d.data() }));
 
-            const q = query(collection(db, "records"), orderBy("date", "asc"));
+            const q = query(collection(db, "records"), orderBy("date", "desc")); // 倒序方便看歷史
             const recSnapshot = await getDocs(q);
             globalRecords = [];
             recSnapshot.forEach(d => globalRecords.push({ id: d.id, ...d.data() }));
 
             renderUI();
-            document.getElementById('loadingOverlay').style.display = 'none';
         } catch (e) {
             console.error(e);
             alert("資料讀取錯誤: " + e.message);
+        } finally {
+            document.getElementById('loadingOverlay').style.display = 'none';
         }
     }
 
@@ -234,6 +293,7 @@
         fetchData();
     }
 
+    // --- UI 渲染 ---
     function renderUI() {
         renderCatList();
         renderChart();
@@ -261,14 +321,15 @@
 
     function renderChart() {
         const ctx = document.getElementById('weightChart').getContext('2d');
-        const processedData = processDataForChart(globalRecords, currentTimeframe);
+        // Chart 需要正序資料
+        const sortedRecords = [...globalRecords].sort((a,b) => new Date(a.date) - new Date(b.date));
+        const processedData = processDataForChart(sortedRecords, currentTimeframe);
         
         const datasets = globalCats.map(cat => {
             const dataPoints = processedData.labels.map(label => {
                 const entry = processedData.map[label] && processedData.map[label][cat.id];
                 return entry ? entry : null;
             });
-
             return {
                 label: cat.name,
                 data: dataPoints,
@@ -296,40 +357,32 @@
     function processDataForChart(records, timeframe) {
         const dataMap = {};
         const labels = new Set();
-
         records.forEach(r => {
             let label = r.date;
-            if (timeframe === 'month') {
-                label = r.date.substring(0, 7);
-            } else if (timeframe === 'week') {
+            if (timeframe === 'month') label = r.date.substring(0, 7);
+            else if (timeframe === 'week') {
                 const d = new Date(r.date);
-                const startOfYear = new Date(d.getFullYear(), 0, 1);
-                const week = Math.ceil((((d - startOfYear) / 86400000) + startOfYear.getDay() + 1) / 7);
+                const start = new Date(d.getFullYear(), 0, 1);
+                const week = Math.ceil((((d - start) / 86400000) + start.getDay() + 1) / 7);
                 label = `${d.getFullYear()}-W${week}`;
             }
-
             labels.add(label);
             if (!dataMap[label]) dataMap[label] = {};
-            
-            if (!dataMap[label][r.catId]) {
-                dataMap[label][r.catId] = { sum: 0, count: 0 };
-            }
+            if (!dataMap[label][r.catId]) dataMap[label][r.catId] = { sum: 0, count: 0 };
             dataMap[label][r.catId].sum += r.weight;
             dataMap[label][r.catId].count += 1;
         });
-
         const sortedLabels = Array.from(labels).sort();
         const finalMap = {};
         sortedLabels.forEach(lbl => {
             finalMap[lbl] = {};
             if (dataMap[lbl]) {
-                Object.keys(dataMap[lbl]).forEach(catId => {
-                    const obj = dataMap[lbl][catId];
-                    finalMap[lbl][catId] = (obj.sum / obj.count).toFixed(2);
+                Object.keys(dataMap[lbl]).forEach(cid => {
+                    const obj = dataMap[lbl][cid];
+                    finalMap[lbl][cid] = (obj.sum / obj.count).toFixed(2);
                 });
             }
         });
-
         return { labels: sortedLabels, map: finalMap };
     }
 
@@ -343,21 +396,18 @@
     function renderInsights() {
         const container = document.getElementById('insightsContainer');
         container.innerHTML = '';
-        const today = new Date();
-        today.setHours(0,0,0,0);
-
+        const today = new Date(); today.setHours(0,0,0,0);
+        
         globalCats.forEach(cat => {
-            const catRecords = globalRecords.filter(r => r.catId === cat.id).sort((a, b) => new Date(b.date) - new Date(a.date));
+            const catRecords = globalRecords.filter(r => r.catId === cat.id); // 已是倒序
             const lastWeight = catRecords.length > 0 ? `${catRecords[0].weight} kg` : "--";
             
             let nextDateStr = "未設定";
             let statusBadge = "";
-
             if (cat.nextMeasurementDate) {
                 const nextDate = new Date(cat.nextMeasurementDate);
                 const diffTime = nextDate - today;
                 const daysDiff = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
                 if (daysDiff < 0) {
                     nextDateStr = `過期 ${Math.abs(daysDiff)} 天`;
                     statusBadge = `<span class="badge-alert">過期</span>`;
@@ -368,9 +418,7 @@
                     nextDateStr = `還有 ${daysDiff} 天`;
                     statusBadge = `<span class="badge-ok">計畫中</span>`;
                 }
-            } else {
-                statusBadge = `<span class="badge-ok" style="background:#EEE;color:#999">未排程</span>`;
-            }
+            } else statusBadge = `<span class="badge-ok" style="background:#EEE;color:#999">未排程</span>`;
 
             const card = document.createElement('div');
             card.className = 'widget-card';
@@ -386,11 +434,50 @@
         });
     }
 
+    // --- 2. 歷史紀錄 & 單筆刪除 ---
+    window.openHistoryModal = () => {
+        const container = document.getElementById('historyListContainer');
+        container.innerHTML = '';
+
+        if (globalRecords.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:#999;">暫無資料</div>';
+        } else {
+            globalRecords.forEach(r => {
+                const cat = globalCats.find(c => c.id === r.catId) || { name: '未知貓咪' };
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `
+                    <div class="history-info">
+                        <div class="history-date">${r.date} - ${cat.name}</div>
+                        <div class="history-val">體重: ${r.weight} kg</div>
+                    </div>
+                    <button class="btn-delete-sm" onclick="deleteRecord('${r.id}')">🗑️</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+        document.getElementById('historyModal').style.display = 'flex';
+    };
+
+    window.deleteRecord = async (recordId) => {
+        if (!confirm("確定要刪除這筆體重紀錄嗎？")) return;
+        try {
+            await deleteDoc(doc(db, "records", recordId));
+            // 本地快速更新
+            globalRecords = globalRecords.filter(r => r.id !== recordId);
+            window.openHistoryModal(); // 刷新列表
+            renderUI(); // 刷新圖表
+        } catch (e) {
+            alert("刪除失敗");
+        }
+    };
+
+    // --- 貓咪管理 ---
     window.openRecordModal = () => {
         document.getElementById('inputDate').valueAsDate = new Date();
         document.getElementById('recordModal').style.display = 'flex';
     };
-    window.closeRecordModal = () => document.getElementById('recordModal').style.display = 'none';
+    window.closeModal = (id) => document.getElementById(id).style.display = 'none';
 
     function renderFormOptions() {
         const sel = document.getElementById('inputCat');
@@ -407,16 +494,12 @@
         const catId = document.getElementById('inputCat').value;
         const date = document.getElementById('inputDate').value;
         const weight = parseFloat(document.getElementById('inputWeight').value);
-
         if(!date || isNaN(weight)) return alert("請輸入完整資料");
-
-        btn.textContent = "儲存中...";
-        btn.disabled = true;
-        await addDoc(collection(db, "records"), { catId, date, weight });
         
-        btn.textContent = "儲存紀錄";
-        btn.disabled = false;
-        closeRecordModal();
+        btn.textContent = "儲存中..."; btn.disabled = true;
+        await addDoc(collection(db, "records"), { catId, date, weight });
+        btn.textContent = "儲存紀錄"; btn.disabled = false;
+        closeModal('recordModal');
         fetchData();
     });
 
@@ -428,70 +511,85 @@
         tempBase64Image = null; 
         document.getElementById('editCatModal').style.display = 'flex';
     };
-    window.closeEditModal = () => document.getElementById('editCatModal').style.display = 'none';
+
+    // --- 3. 刪除貓咪 Profile (含二次確認) ---
+    window.deleteCatProfile = async () => {
+        const catId = document.getElementById('editCatId').value;
+        const catName = document.getElementById('editCatName').value;
+
+        // 第一次確認
+        if (!confirm(`確定要刪除「${catName}」嗎？`)) return;
+
+        // 第二次確認 (嚴重警告)
+        if (!confirm(`⚠️ 嚴重警告 ⚠️\n\n這將會永久刪除 ${catName} 的檔案以及「所有」相關的歷史體重資料。\n\n此動作無法復原！確定要執行嗎？`)) return;
+
+        const btn = document.querySelector('.btn-danger');
+        const oldText = btn.textContent;
+        btn.textContent = "刪除資料中..."; btn.disabled = true;
+
+        try {
+            // 1. 刪除該貓咪的所有 Records
+            const batch = writeBatch(db);
+            const q = query(collection(db, "records"), where("catId", "==", catId));
+            const snap = await getDocs(q);
+            snap.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+            await batch.commit();
+
+            // 2. 刪除貓咪本體
+            await deleteDoc(doc(db, "cats", catId));
+
+            alert(`${catName} 已刪除。`);
+            closeModal('editCatModal');
+            fetchData(); // 重新讀取
+        } catch (e) {
+            console.error(e);
+            alert("刪除失敗: " + e.message);
+        } finally {
+            btn.textContent = oldText; btn.disabled = false;
+        }
+    };
 
     document.getElementById('saveCatBtn').addEventListener('click', async () => {
         const btn = document.getElementById('saveCatBtn');
         const id = document.getElementById('editCatId').value;
         const name = document.getElementById('editCatName').value;
         const nextDate = document.getElementById('editNextDate').value;
-
-        btn.textContent = "更新中...";
-        btn.disabled = true;
+        btn.textContent = "更新中..."; btn.disabled = true;
         
         const updateData = { name: name, nextMeasurementDate: nextDate };
-        if (tempBase64Image) {
-            updateData.avatarUrl = tempBase64Image;
-        }
+        if (tempBase64Image) updateData.avatarUrl = tempBase64Image;
 
         try {
             await updateDoc(doc(db, "cats", id), updateData);
-            closeEditModal();
+            closeModal('editCatModal');
             fetchData();
-        } catch(e) {
-            alert("更新失敗：" + e.message);
-        } finally {
-            btn.textContent = "更新資料";
-            btn.disabled = false;
-        }
+        } catch(e) { alert("更新失敗"); } 
+        finally { btn.textContent = "更新資料"; btn.disabled = false; }
     });
 
+    // 圖片壓縮
     window.triggerUpload = () => document.getElementById('imgUpload').click();
-    
-    // --- 圖片壓縮核心邏輯 ---
     document.getElementById('imgUpload').addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if(!file) return;
-
-        // 顯示壓縮中提示
-        const preview = document.getElementById('editCatAvatar');
-        const loading = document.getElementById('imgProcessing');
-        const btn = document.getElementById('saveCatBtn');
-        
-        loading.style.display = 'block';
-        preview.style.opacity = '0.5';
-        btn.disabled = true;
-
+        document.getElementById('imgProcessing').style.display = 'block';
+        document.getElementById('editCatAvatar').style.opacity = '0.5';
+        document.getElementById('saveCatBtn').disabled = true;
         try {
-            // 等待壓縮完成
-            const compressedBase64 = await compressImage(file, 500, 0.7);
-            
-            // 更新 UI
-            tempBase64Image = compressedBase64;
-            preview.src = compressedBase64;
-        } catch (error) {
-            console.error(error);
-            alert("圖片處理失敗，請試著換一張");
-        } finally {
-            loading.style.display = 'none';
-            preview.style.opacity = '1';
-            btn.disabled = false;
+            const compressed = await compressImage(file, 500, 0.7);
+            tempBase64Image = compressed;
+            document.getElementById('editCatAvatar').src = compressed;
+        } catch (e) { alert("圖片處理失敗"); }
+        finally {
+            document.getElementById('imgProcessing').style.display = 'none';
+            document.getElementById('editCatAvatar').style.opacity = '1';
+            document.getElementById('saveCatBtn').disabled = false;
         }
-        
         e.target.value = '';
     });
 
-    // 壓縮函式：將圖片限制在 maxWidth 內，並轉為 JPEG
     function compressImage(file, maxWidth, quality) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -500,23 +598,12 @@
                 const img = new Image();
                 img.src = event.target.result;
                 img.onload = () => {
-                    // 計算新尺寸
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    if (width > maxWidth) {
-                        height = Math.round(height * (maxWidth / width));
-                        width = maxWidth;
-                    }
-
-                    // 使用 Canvas 重繪
+                    let w = img.width, h = img.height;
+                    if (w > maxWidth) { h = Math.round(h * (maxWidth / w)); w = maxWidth; }
                     const canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
+                    canvas.width = w; canvas.height = h;
                     const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    // 輸出壓縮後的 Base64
+                    ctx.drawImage(img, 0, 0, w, h);
                     resolve(canvas.toDataURL('image/jpeg', quality));
                 };
                 img.onerror = (err) => reject(err);
@@ -524,8 +611,6 @@
             reader.onerror = (err) => reject(err);
         });
     }
-
-    init();
 </script>
 </body>
 </html>
