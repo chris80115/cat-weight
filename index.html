@@ -9,7 +9,7 @@
 
     <style>
         :root {
-            --bg-color: #F2F6F8; /* 更乾淨的淺灰藍背景 */
+            --bg-color: #F2F6F8;
             --card-bg: #FFFFFF;
             --text-main: #4A4A4A;
             --text-light: #A0A0A0;
@@ -21,88 +21,40 @@
         body { background-color: var(--bg-color); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; padding: 20px; }
         .container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 24px; padding-bottom: 80px; }
         
-        /* Header */
         header { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px; }
         header h1 { font-size: 1.8rem; color: #5D737E; font-weight: 800; }
         .status-badge { font-size: 0.8rem; background: #E0E7EA; padding: 5px 12px; border-radius: 20px; color: #5D737E; }
 
-        /* 1. 貓咪列表 (頂部導航) */
-        .cat-list { 
-            display: flex; justify-content: center; gap: 20px; 
-            padding: 10px 0;
-        }
-        .cat-item { 
-            display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: all 0.2s; position: relative;
-        }
+        .cat-list { display: flex; justify-content: center; gap: 20px; padding: 10px 0; }
+        .cat-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: all 0.2s; position: relative; }
         .cat-item:hover { transform: translateY(-5px); }
-        .avatar-wrapper { 
-            width: 75px; height: 75px; border-radius: 50%; overflow: hidden; 
-            border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-bottom: 8px; transition: border-color 0.3s;
-        }
+        .avatar-wrapper { width: 75px; height: 75px; border-radius: 50%; overflow: hidden; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 8px; transition: border-color 0.3s; }
         .avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; }
         .cat-name { font-weight: 700; font-size: 0.9rem; color: var(--text-main); }
-        .edit-icon { 
-            position: absolute; top: 0; right: 0; background: #FFF; border-radius: 50%; 
-            width: 24px; height: 24px; font-size: 12px; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: var(--text-light);
-        }
+        .edit-icon { position: absolute; top: 0; right: 0; background: #FFF; border-radius: 50%; width: 24px; height: 24px; font-size: 12px; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: var(--text-light); }
 
-        /* 2. 圖表區塊 (含過濾器) */
         .chart-card { background: var(--card-bg); padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); }
         .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .chart-title { font-size: 1.1rem; font-weight: bold; }
-        
         .chart-filters { display: flex; background: #F5F5F5; border-radius: 12px; padding: 4px; }
-        .filter-btn { 
-            border: none; background: transparent; padding: 6px 12px; border-radius: 8px; 
-            font-size: 0.85rem; color: var(--text-light); cursor: pointer; font-weight: bold; transition: 0.2s;
-        }
+        .filter-btn { border: none; background: transparent; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; color: var(--text-light); cursor: pointer; font-weight: bold; transition: 0.2s; }
         .filter-btn.active { background: #FFFFFF; color: var(--text-main); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-        /* 3. 新版 Insight Cards (Widget Style) */
         .section-label { font-size: 1.1rem; font-weight: bold; margin-bottom: -10px; margin-top: 10px; padding-left: 5px; }
-        .insights { 
-            display: grid; grid-template-columns: 1fr; gap: 16px; 
-        }
-        /* 卡片樣式 */
-        .widget-card {
-            background: var(--card-bg); border-radius: var(--radius); padding: 20px;
-            box-shadow: var(--shadow); display: flex; align-items: center; justify-content: space-between;
-            position: relative; overflow: hidden;
-        }
-        /* 裝飾背景圓 */
-        .widget-card::before {
-            content: ''; position: absolute; right: -20px; top: -20px;
-            width: 100px; height: 100px; border-radius: 50%;
-            background: var(--theme-color); opacity: 0.15; z-index: 0;
-        }
-        
+        .insights { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .widget-card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; }
+        .widget-card::before { content: ''; position: absolute; right: -20px; top: -20px; width: 100px; height: 100px; border-radius: 50%; background: var(--theme-color); opacity: 0.15; z-index: 0; }
         .widget-info { z-index: 1; flex: 1; }
         .widget-title { font-size: 1rem; font-weight: bold; color: var(--text-main); margin-bottom: 4px; display: flex; align-items: center; gap: 8px;}
         .widget-data { font-size: 1.6rem; font-weight: 800; color: var(--text-main); }
         .widget-sub { font-size: 0.85rem; color: var(--text-light); margin-top: 4px; display: flex; align-items: center; gap: 5px;}
-        
-        /* 狀態標籤 */
         .badge-alert { background: #FFE0E0; color: #D9534F; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; }
         .badge-ok { background: #E0F7FA; color: #0097A7; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; }
 
-        /* FAB Button */
-        .fab { 
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; 
-            background: linear-gradient(135deg, #8FB5B1, #769F9B); color: white; 
-            border-radius: 50%; display: flex; justify-content: center; align-items: center; 
-            font-size: 30px; box-shadow: 0 10px 25px rgba(118, 159, 155, 0.4); 
-            cursor: pointer; transition: transform 0.2s; border: none; z-index: 50;
-        }
+        .fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #8FB5B1, #769F9B); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 10px 25px rgba(118, 159, 155, 0.4); cursor: pointer; transition: transform 0.2s; border: none; z-index: 50; }
         .fab:hover { transform: scale(1.1) rotate(90deg); }
 
-        /* Modals */
-        .modal-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-            display: none; justify-content: center; align-items: center; z-index: 100; 
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 100; }
         .modal { background: var(--card-bg); padding: 30px; border-radius: var(--radius); width: 90%; max-width: 400px; animation: popIn 0.3s ease; }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
@@ -115,25 +67,20 @@
         .btn { flex: 1; padding: 14px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; }
         .btn-primary { background: #8FB5B1; color: white; box-shadow: 0 4px 12px rgba(143, 181, 177, 0.3); }
         .btn-primary:active { transform: scale(0.98); }
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
         .btn-secondary { background: #F0F0F0; color: var(--text-light); }
 
-        /* 圖片上傳預覽 */
-        .edit-avatar-preview {
-            width: 100px; height: 100px; border-radius: 50%; background: #eee;
-            margin: 0 auto 20px; overflow: hidden; position: relative; cursor: pointer;
-            border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        .edit-avatar-preview { width: 100px; height: 100px; border-radius: 50%; background: #eee; margin: 0 auto 20px; overflow: hidden; position: relative; cursor: pointer; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .edit-avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
-        .edit-avatar-overlay {
-            position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.5);
-            color: white; font-size: 0.7rem; text-align: center; padding: 4px 0;
-        }
+        .edit-avatar-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.5); color: white; font-size: 0.7rem; text-align: center; padding: 4px 0; }
 
-        #loadingOverlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.9); z-index: 200;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.2rem; color: #8FB5B1; font-weight: bold; flex-direction: column; gap: 10px;
+        #loadingOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 200; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; color: #8FB5B1; font-weight: bold; flex-direction: column; gap: 10px; }
+        
+        /* 圖片處理中提示 */
+        #imgProcessing {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: white; font-weight: bold; font-size: 0.8rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            display: none; z-index: 10;
         }
     </style>
 </head>
@@ -168,7 +115,6 @@
 </div>
 
 <button class="fab" onclick="openRecordModal()">+</button>
-
 <input type="file" id="imgUpload" accept="image/*" style="display: none;">
 
 <div class="modal-overlay" id="recordModal">
@@ -199,6 +145,7 @@
         <div class="edit-avatar-preview" onclick="triggerUpload()">
             <img id="editCatAvatar" src="" alt="">
             <div class="edit-avatar-overlay">更換照片</div>
+            <div id="imgProcessing">壓縮中...</div>
         </div>
         
         <input type="hidden" id="editCatId">
@@ -239,15 +186,13 @@
                 measurementId: "G-4YHP7NFQ73"
     };
 
-    // App State
     let db;
     let globalCats = [];
     let globalRecords = [];
     let chartInstance = null;
-    let currentTimeframe = 'day'; // day, week, month
-    let tempBase64Image = null; // 暫存上傳的圖片字串
+    let currentTimeframe = 'day'; 
+    let tempBase64Image = null;
 
-    // Initialization
     async function init() {
         if (!firebaseConfig.apiKey) {
             alert("請設定 Firebase API Key");
@@ -259,17 +204,13 @@
         await fetchData();
     }
 
-    // Fetch Data
     async function fetchData() {
         try {
-            // 1. Cats
             const catsSnapshot = await getDocs(collection(db, "cats"));
             if (catsSnapshot.empty) { await seedDefaultCats(); return; }
-            
             globalCats = [];
             catsSnapshot.forEach(d => globalCats.push({ id: d.id, ...d.data() }));
 
-            // 2. Records
             const q = query(collection(db, "records"), orderBy("date", "asc"));
             const recSnapshot = await getDocs(q);
             globalRecords = [];
@@ -279,7 +220,7 @@
             document.getElementById('loadingOverlay').style.display = 'none';
         } catch (e) {
             console.error(e);
-            alert("資料讀取錯誤");
+            alert("資料讀取錯誤: " + e.message);
         }
     }
 
@@ -293,8 +234,6 @@
         fetchData();
     }
 
-    // --- Rendering UI ---
-
     function renderUI() {
         renderCatList();
         renderChart();
@@ -302,14 +241,13 @@
         renderFormOptions();
     }
 
-    // 1. Render Cat List
     function renderCatList() {
         const container = document.getElementById('catListContainer');
         container.innerHTML = '';
         globalCats.forEach(cat => {
             const el = document.createElement('div');
             el.className = 'cat-item';
-            el.onclick = () => openEditModal(cat); // 點擊開啟編輯
+            el.onclick = () => openEditModal(cat);
             el.innerHTML = `
                 <div class="avatar-wrapper" style="border-color: ${cat.themeColor}">
                     <img src="${cat.avatarUrl}">
@@ -321,15 +259,11 @@
         });
     }
 
-    // 2. Render Chart (With Timeframe Logic)
     function renderChart() {
         const ctx = document.getElementById('weightChart').getContext('2d');
-        
-        // Data Processing based on Timeframe
         const processedData = processDataForChart(globalRecords, currentTimeframe);
         
         const datasets = globalCats.map(cat => {
-            // Find data points for this cat
             const dataPoints = processedData.labels.map(label => {
                 const entry = processedData.map[label] && processedData.map[label][cat.id];
                 return entry ? entry : null;
@@ -359,20 +293,16 @@
         });
     }
 
-    // Helper: Group Data Logic
     function processDataForChart(records, timeframe) {
-        // Map: { "Label": { "catId": avgWeight, ... } }
         const dataMap = {};
         const labels = new Set();
 
         records.forEach(r => {
-            let label = r.date; // Default 'day'
-
+            let label = r.date;
             if (timeframe === 'month') {
-                label = r.date.substring(0, 7); // YYYY-MM
+                label = r.date.substring(0, 7);
             } else if (timeframe === 'week') {
                 const d = new Date(r.date);
-                // Simple Week calc
                 const startOfYear = new Date(d.getFullYear(), 0, 1);
                 const week = Math.ceil((((d - startOfYear) / 86400000) + startOfYear.getDay() + 1) / 7);
                 label = `${d.getFullYear()}-W${week}`;
@@ -381,9 +311,6 @@
             labels.add(label);
             if (!dataMap[label]) dataMap[label] = {};
             
-            // Average calculation logic (simplified: last win or running avg)
-            // For simplicity in this structure: if multiple records in same period, we overwrite (or average)
-            // Let's do simple average
             if (!dataMap[label][r.catId]) {
                 dataMap[label][r.catId] = { sum: 0, count: 0 };
             }
@@ -392,8 +319,6 @@
         });
 
         const sortedLabels = Array.from(labels).sort();
-        
-        // Flatten averages
         const finalMap = {};
         sortedLabels.forEach(lbl => {
             finalMap[lbl] = {};
@@ -410,13 +335,11 @@
 
     window.updateChartTimeframe = (tf) => {
         currentTimeframe = tf;
-        // Update Buttons
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         event.target.classList.add('active');
         renderChart();
     };
 
-    // 3. Render Insights (New Style)
     function renderInsights() {
         const container = document.getElementById('insightsContainer');
         container.innerHTML = '';
@@ -424,19 +347,16 @@
         today.setHours(0,0,0,0);
 
         globalCats.forEach(cat => {
-            // Get last weight
             const catRecords = globalRecords.filter(r => r.catId === cat.id).sort((a, b) => new Date(b.date) - new Date(a.date));
             const lastWeight = catRecords.length > 0 ? `${catRecords[0].weight} kg` : "--";
             
-            // Calculate Next Date
             let nextDateStr = "未設定";
             let statusBadge = "";
-            let daysDiff = null;
 
             if (cat.nextMeasurementDate) {
                 const nextDate = new Date(cat.nextMeasurementDate);
                 const diffTime = nextDate - today;
-                daysDiff = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const daysDiff = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
                 if (daysDiff < 0) {
                     nextDateStr = `過期 ${Math.abs(daysDiff)} 天`;
@@ -457,22 +377,15 @@
             card.style.setProperty('--theme-color', cat.themeColor);
             card.innerHTML = `
                 <div class="widget-info">
-                    <div class="widget-title">
-                        ${cat.name} ${statusBadge}
-                    </div>
+                    <div class="widget-title">${cat.name} ${statusBadge}</div>
                     <div class="widget-data">${lastWeight}</div>
-                    <div class="widget-sub">
-                        📅 下次測量: ${nextDateStr}
-                    </div>
+                    <div class="widget-sub">📅 下次測量: ${nextDateStr}</div>
                 </div>
             `;
             container.appendChild(card);
         });
     }
 
-    // --- Interaction & Modals ---
-
-    // Record Modal
     window.openRecordModal = () => {
         document.getElementById('inputDate').valueAsDate = new Date();
         document.getElementById('recordModal').style.display = 'flex';
@@ -489,7 +402,6 @@
         });
     }
 
-    // Save Record
     document.getElementById('saveRecordBtn').addEventListener('click', async () => {
         const btn = document.getElementById('saveRecordBtn');
         const catId = document.getElementById('inputCat').value;
@@ -499,25 +411,25 @@
         if(!date || isNaN(weight)) return alert("請輸入完整資料");
 
         btn.textContent = "儲存中...";
+        btn.disabled = true;
         await addDoc(collection(db, "records"), { catId, date, weight });
         
         btn.textContent = "儲存紀錄";
+        btn.disabled = false;
         closeRecordModal();
-        fetchData(); // Refresh
+        fetchData();
     });
 
-    // Edit Cat Modal
     window.openEditModal = (cat) => {
         document.getElementById('editCatId').value = cat.id;
         document.getElementById('editCatName').value = cat.name;
         document.getElementById('editCatAvatar').src = cat.avatarUrl;
         document.getElementById('editNextDate').value = cat.nextMeasurementDate || '';
-        tempBase64Image = null; // Reset temp image
+        tempBase64Image = null; 
         document.getElementById('editCatModal').style.display = 'flex';
     };
     window.closeEditModal = () => document.getElementById('editCatModal').style.display = 'none';
 
-    // Update Cat
     document.getElementById('saveCatBtn').addEventListener('click', async () => {
         const btn = document.getElementById('saveCatBtn');
         const id = document.getElementById('editCatId').value;
@@ -525,37 +437,95 @@
         const nextDate = document.getElementById('editNextDate').value;
 
         btn.textContent = "更新中...";
+        btn.disabled = true;
         
         const updateData = { name: name, nextMeasurementDate: nextDate };
         if (tempBase64Image) {
             updateData.avatarUrl = tempBase64Image;
         }
 
-        await updateDoc(doc(db, "cats", id), updateData);
-        
-        btn.textContent = "更新資料";
-        closeEditModal();
-        fetchData();
+        try {
+            await updateDoc(doc(db, "cats", id), updateData);
+            closeEditModal();
+            fetchData();
+        } catch(e) {
+            alert("更新失敗：" + e.message);
+        } finally {
+            btn.textContent = "更新資料";
+            btn.disabled = false;
+        }
     });
 
-    // Image Upload Logic (Reuse for Edit Modal)
     window.triggerUpload = () => document.getElementById('imgUpload').click();
     
-    document.getElementById('imgUpload').addEventListener('change', (e) => {
+    // --- 圖片壓縮核心邏輯 ---
+    document.getElementById('imgUpload').addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if(!file) return;
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-            tempBase64Image = evt.target.result;
-            document.getElementById('editCatAvatar').src = tempBase64Image; // Preview
-        };
-        reader.readAsDataURL(file);
+
+        // 顯示壓縮中提示
+        const preview = document.getElementById('editCatAvatar');
+        const loading = document.getElementById('imgProcessing');
+        const btn = document.getElementById('saveCatBtn');
+        
+        loading.style.display = 'block';
+        preview.style.opacity = '0.5';
+        btn.disabled = true;
+
+        try {
+            // 等待壓縮完成
+            const compressedBase64 = await compressImage(file, 500, 0.7);
+            
+            // 更新 UI
+            tempBase64Image = compressedBase64;
+            preview.src = compressedBase64;
+        } catch (error) {
+            console.error(error);
+            alert("圖片處理失敗，請試著換一張");
+        } finally {
+            loading.style.display = 'none';
+            preview.style.opacity = '1';
+            btn.disabled = false;
+        }
+        
         e.target.value = '';
     });
 
-    // Run
-    init();
+    // 壓縮函式：將圖片限制在 maxWidth 內，並轉為 JPEG
+    function compressImage(file, maxWidth, quality) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    // 計算新尺寸
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > maxWidth) {
+                        height = Math.round(height * (maxWidth / width));
+                        width = maxWidth;
+                    }
 
+                    // 使用 Canvas 重繪
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // 輸出壓縮後的 Base64
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = (err) => reject(err);
+            };
+            reader.onerror = (err) => reject(err);
+        });
+    }
+
+    init();
 </script>
 </body>
 </html>
